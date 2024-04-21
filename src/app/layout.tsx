@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <div>
+        <div className="relative min-h-screen isolate overflow-hidden border-b border-gray-200 bg-white">
            
         </div>
       </body>
