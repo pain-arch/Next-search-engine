@@ -1,7 +1,7 @@
 import type { LucideProps } from "lucide-react";
 
 export const Icons = {
-    sparkles: (props: LucideProps) => (
+    Sparkles: (props: LucideProps) => (
         <svg {...props} viewBox='0 0 512.002 512.002'>
         <path
           fill='#F9D366'
