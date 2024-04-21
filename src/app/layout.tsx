@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Icons } from "@/components/icons";
+import SearchBar from "@/components/SearchBar";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -47,7 +48,10 @@ export default function RootLayout({
               <h1 className="tracking-tight text-4xl sm:text-6xl font-bold">
                 MagnateSearch
               </h1>
-              <p className="max-w-xl text-center text-lg text-slate-700"></p>
+              <p className="max-w-xl text-center text-lg text-slate-700">A beautifully designed, hybrid search engine that enchances search accuracy by querying semantically related results.</p>
+              <div className="mx-auto mt-16 w-full max-w-2xl flex flex-col">
+                <SearchBar/>
+              </div>
             </div>
           </div>
         </div>
