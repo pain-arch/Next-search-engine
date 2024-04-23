@@ -1,17 +1,45 @@
 "use client"
-import { Search } from "lucide-react";
+import { Loader2, Search, Smartphone } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { useRef } from "react";
+import { useRef, useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 
 const SearchBar = () => {
     
+    const inputRef = useRef<HTMLInputElement>(null);
+    const [isSearching, startTransition] = useTransition();
+    const router = useRouter();
+    const [query, setQuery] = useState<string>("");
+
+
+    const search = () => { 
+        startTransition(() => {
+            router.push(`/search?query=${query}`)
+        })
+    } 
+
+    console.log(query);
+
 
     return (
         <div className="relative w-full h-14 flex flex-col bg-white">            
             <div className="relative h-14 z-10 rounded-md">
-                <Input className="absolute inset-0 h-full" />
-                <Button className="absolute right-0 inset-y-0 h-full roundede-l-none"><Search className="searchBtn w-4 mr-2"/>Search</Button>
+                <Input disabled={isSearching} value={query} onChange={(e)=> setQuery(e.target.value)} onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                        search();
+                    }
+                    
+                    if (e.key === "Escape") {
+                        inputRef?.current?.blur();
+                    }
+                }} ref={inputRef} className="absolute inset-0 h-full" />
+                <Button disabled={isSearching} size='sm' onClick={search} className="absolute right-0 inset-y-0 h-full roundede-l-none">
+                    {
+                        isSearching ? <Loader2 className="h-6 w-6 animate-spin"/> : <Search className="searchBtn w-4 mr-2"/>
+                    }
+                    Search
+                </Button>
             </div>
         </div>
     )
