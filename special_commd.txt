@@ -1,0 +1,1 @@
+To create a table in the cloud database after connecting the database "npx drizzle-kit push:pg"
