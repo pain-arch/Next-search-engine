@@ -19,7 +19,7 @@ const Page = async ({ searchParams }: PageProps) => {
     }
 
 
-    let products = await db.select().from(productsTable).where(sql``)
+    let products = await db.select().from(productsTable).where(sql`to_tsvector('simple', lower(${productsTable.name} || ' ' || ${productsTable.description}))`)
 
 
     // query login setup
