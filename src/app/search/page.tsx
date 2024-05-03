@@ -7,24 +7,27 @@ interface PageProps {
     searchParams: {
         [key: string]: string | string[] | undefined;
     };
- }
+}
 
 
 const Page = async ({ searchParams }: PageProps) => {
 
     const query = searchParams.query
 
-    if(Array.isArray(query) || !query) { 
+    if (Array.isArray(query) || !query) {
         return redirect("/")
     }
 
 
-    let products = await db.select().from(productsTable).where(sql`to_tsvector('simple', lower(${productsTable.name} || ' ' || ${productsTable.description}))`)
+    let products = await db.select().from(productsTable).where(
+    sql`to_tsvector('simple', lower(${productsTable.name} || ' ' || ${productsTable.description}))
+    @@ to_tsquery('simple', lower(${query.trim().split(' ').join(' & ')}))`
+    )
 
 
     // query login setup
 
-    return (<></>)
+    return (<></>) 
 }
 
 export default Page;
