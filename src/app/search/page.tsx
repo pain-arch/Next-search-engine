@@ -22,12 +22,12 @@ const Page = async ({ searchParams }: PageProps) => {
     let products = await db.select().from(productsTable).where(
     sql`to_tsvector('simple', lower(${productsTable.name} || ' ' || ${productsTable.description}))
     @@ to_tsquery('simple', lower(${query.trim().split(' ').join(' & ')}))`
-    )
+    ).limit(3)
 
 
     // query login setup
 
-    return (<></>) 
+    return <pre>{ JSON.stringify(products)}</pre>
 }
 
 export default Page;
