@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { neon } from '@neondatabase/serverless'
-//import { Index } from '@upstash/vector'
+import { Index } from '@upstash/vector'
 import * as dotenv from 'dotenv'
 import { drizzle } from 'drizzle-orm/neon-http'
 //import { vectorize } from '../lib/vectorize'
@@ -8,11 +8,11 @@ import { productsTable } from './schema'
 
 dotenv.config()
 
-//const index = new Index()
+const index = new Index()
 
 async function main() {
   const connector = neon(process.env.DATABASE_URL!)
-  // @ts-expect-error neon-drizzle
+  //@ts-expect-error neon-drizzle
   const db = drizzle(connector)
 
   const products: (typeof productsTable.$inferInsert)[] = []
@@ -138,18 +138,18 @@ async function main() {
   products.forEach(async (product) => {
     await db.insert(productsTable).values(product).onConflictDoNothing()
 
-//     await index.upsert({
-//       id: product.id!,
-//       vector: await vectorize(`${product.name}: ${product.description}`),
-//       metadata: {
-//         id: product.id,
-//         name: product.name,
-//         description: product.description,
-//         price: product.price,
-//         imageId: product.imageId,
-//       },
-//     })
-//   })
+    await index.upsert({
+      id: product.id!,
+      vector: await vectorize(`${product.name}: ${product.description}`),
+      metadata: {
+        id: product.id,
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        imageId: product.imageId,
+      },
+    })
+  })
 }
 
 
